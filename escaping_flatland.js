@@ -2,7 +2,7 @@ $(document).ready(function(){
 
     var renderer = new THREE.CanvasRenderer({antialias:true});
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera( 45, $(window).width() / $(window).height(), 0.1, 2000);
+    var camera = new THREE.PerspectiveCamera( 45, window.outerWidth / window.outerHeight, 0.1, 2000);
     var mouse = { x: 0, y: 0 };
     var projector = new THREE.Projector();
     var vector = new THREE.Vector3( mouse.x, mouse.y, 0 );
@@ -18,7 +18,7 @@ $(document).ready(function(){
     camera.position.set(0,0,800);
     camera.lookAt(scene.position);  
     scene.add(camera);
-    renderer.setSize( $(window).width(), $(window).height() );
+    renderer.setSize( window.outerWidth, window.outerHeight );
     $(renderer.domElement).addClass('escapingflatland_canvas')
     $('body').append(renderer.domElement)
 
@@ -32,10 +32,10 @@ $(document).ready(function(){
 
     function onDocumentMouseMove(event){
         if ( event.target === renderer.domElement ) {
-                mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-                mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-                updateRayCaster()
-                addCube();
+            mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+            mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+            updateRayCaster()
+            addCube();
         }
     }
     function onDocumentTouchMove(event){
@@ -63,7 +63,7 @@ $(document).ready(function(){
 
         setTimeout(function(){
             shapes.push(shape)
-        }, 5000)
+        }, 1000)
         
         setTimeout(function(){
             scene.remove(shape)
@@ -77,10 +77,8 @@ $(document).ready(function(){
         rayCaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
     }
 
-
-
     function animate() {
-        requestAnimationFrame( animate );
+        window.requestAnimationFrame( animate );
         pi.num += pi.num*Math.sin(1)
         for(i=shapes.length-1; i>0; i--){
             var shape = shapes[i]
